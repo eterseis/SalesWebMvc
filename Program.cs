@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
+using SalesWebMvc.Models;
 namespace SalesWebMvc;
 
 public class Program
@@ -15,6 +16,13 @@ public class Program
         (options => options.UseMySql("server=localhost;initial catalog=SalesWebMvc_DB;uid=root;pwd=1234", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql")));
 
         var app = builder.Build();
+
+        using (var scope = app.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+
+            SeedData.Initialize(services);
+        }
 
         // Configure the HTTP request pipeline.
         if (!app.Environment.IsDevelopment())
