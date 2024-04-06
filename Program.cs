@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SalesWebMvc.Data;
 using SalesWebMvc.Models;
+using SalesWebMvc.Services;
 namespace SalesWebMvc;
 
 public class Program
@@ -14,6 +15,7 @@ public class Program
         builder.Services.AddControllersWithViews();
         builder.Services.AddDbContext<SalesWebMvcContext>
         (options => options.UseMySql("server=localhost;initial catalog=SalesWebMvc_DB;uid=root;pwd=1234", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql")));
+        builder.Services.AddScoped<SellerService>();
 
         var app = builder.Build();
 
