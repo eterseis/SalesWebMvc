@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Common;
 
 namespace SalesWebMvc.Models;
 
@@ -13,6 +14,7 @@ public class Seller
     [DataType(DataType.Currency)]
     public double BaseSalary { get; set; }
     public Department? Department { get; set; }
+    public int DepartmentId { get; set; }
     public ICollection<SalesRecord> Sales { get; set; } = [];
 
     public Seller() { }
