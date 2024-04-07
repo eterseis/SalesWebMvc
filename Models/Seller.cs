@@ -14,6 +14,7 @@ public class Seller
     [DataType(DataType.Currency)]
     public double BaseSalary { get; set; }
     public Department? Department { get; set; }
+    [Display(Name = "Department")]
     public int DepartmentId { get; set; }
     public ICollection<SalesRecord> Sales { get; set; } = [];
 
