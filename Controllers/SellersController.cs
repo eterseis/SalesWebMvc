@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SalesWebMvc.Models;
@@ -41,12 +42,12 @@ public class SellersController : Controller
     {
         if (id == null)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id not provided" });
         }
         var obj = _context.FindById(id.Value);
         if (obj == null)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id not found" });
         }
         return View(obj);
     }
@@ -61,12 +62,12 @@ public class SellersController : Controller
     {
         if (id == null)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id not provided" });
         }
         var obj = _context.FindById(id.Value);
         if (obj == null)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id not found" });
         }
         return View(obj);
     }
@@ -74,12 +75,12 @@ public class SellersController : Controller
     {
         if (id == null)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id not provided" });
         }
         var obj = _context.FindById(id.Value);
         if (obj == null)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id not found" });
         }
         List<Department> departments = _departmentService.FindAll();
         SellerFormVIewModel viewModel = new SellerFormVIewModel { Seller = obj, Departments = departments };
@@ -91,7 +92,7 @@ public class SellersController : Controller
     {
         if (id != seller.Id)
         {
-            return NotFound();
+            return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
         }
         try
         {
@@ -100,14 +101,20 @@ public class SellersController : Controller
                 _context.Update(seller);
             }
         }
-        catch (NotFoundException)
+        catch (ApplicationException e)
         {
-            return NotFound();
-        }
-        catch (DbConcurrencyException)
-        {
-            return BadRequest();
+            return RedirectToAction(nameof(Error), new { message = e });
         }
         return RedirectToAction(nameof(Index));
+    }
+
+    public IActionResult Error(string message)
+    {
+        var viewModel = new ErrorViewModel
+        {
+            Message = message,
+            RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+        };
+        return View(viewModel);
     }
 }
