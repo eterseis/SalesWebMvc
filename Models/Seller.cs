@@ -7,8 +7,10 @@ public class Seller
 {
     public int Id { get; set; }
     public string? Name { get; set; }
+    [DataType(DataType.EmailAddress)]
     public string? Email { get; set; }
     [DataType(DataType.Date)]
+    [Display(Name = "Birth Date")]
     public DateTime BirthDate { get; set; }
     [Display(Name = "Base Salary")]
     [DataType(DataType.Currency)]
