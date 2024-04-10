@@ -20,6 +20,7 @@ public class Program
         (options => options.UseMySql("server=localhost;initial catalog=SalesWebMvc_DB;uid=root;pwd=1234", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql")));
         builder.Services.AddScoped<SellerService>();
         builder.Services.AddScoped<DepartmentService>();
+        builder.Services.AddScoped<SalesRecordService>();
 
         var app = builder.Build();
 
